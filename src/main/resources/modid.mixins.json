@@ -4,6 +4,7 @@
   "package": "net.glasslauncher.example.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ExampleMixinServer"
   ],
   "client": [
     "ExampleMixin"
