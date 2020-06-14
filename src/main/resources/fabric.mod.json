@@ -9,8 +9,8 @@
     "Me!"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://glass-launcher.net/",
+    "sources": "https://github.com/calmilamsy/BIN-fabric-example-mod"
   },
 
   "license": "CC0-1.0",
@@ -19,19 +19,14 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "net.glasslauncher.example.ExampleMod"
     ]
   },
   "mixins": [
     "modid.mixins.json"
   ],
 
-  "depends": {
-    "fabricloader": ">=0.7.4",
-    "fabric": "*",
-    "minecraft": "1.15.x"
-  },
-  "suggests": {
-    "flamingo": "*"
+  "depends_to_be_fixed": {
+    "minecraft": "b1.7.3"
   }
 }

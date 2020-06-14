@@ -1,4 +1,4 @@
-package net.fabricmc.example;
+package net.glasslauncher.example;
 
 import net.fabricmc.api.ModInitializer;
 
