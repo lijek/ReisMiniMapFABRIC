@@ -26,7 +26,7 @@
     "modid.mixins.json"
   ],
 
-  "depends_to_be_fixed": {
-    "minecraft": "b1.7.3"
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3"
   }
 }
