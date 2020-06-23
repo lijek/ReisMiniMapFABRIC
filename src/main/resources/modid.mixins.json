@@ -3,11 +3,12 @@
   "minVersion": "0.8",
   "package": "net.glasslauncher.example.mixin",
   "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ExampleMixin"
+  ],
   "server": [
-    "ExampleMixinServer"
   ],
   "client": [
-    "ExampleMixin"
   ],
   "injectors": {
     "defaultRequire": 1
