@@ -19,10 +19,6 @@ Extra steps for better mixin making in IntelliJ:
 6. Restart again.
 7. Profit!
 
-## Making a Mod
-
-You will want to use [BIN Example Mod](https://github.com/calmilamsy/BIN-fabric-example-mod).
-
 ## Using a Mod
 
 You will want to use the [Cursed Fabric MultiMC Instance](https://github.com/calmilamsy/Cursed-Fabric-MultiMC)
