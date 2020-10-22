@@ -5,26 +5,29 @@
 For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
 
 NOTE: There is no Fabric-API for beta 1.7.3!  
-There is [StationLoader](com/modificationstation/StationLoader) and [Cursed-Legacy-API](https://github.com/minecraft-cursed-legacy/Cursed-Legacy-API) though.
+There is [StationLoader](com/modificationstation/StationLoader).  
+There is also [Cursed-Legacy-API](https://github.com/minecraft-cursed-legacy/Cursed-Legacy-API), but that requires you to use [Plasma's mappings and workspace](https://github.com/minecraft-cursed-legacy/Example-Mod) instead of this.
 
-Extra steps for better mixin making in IntelliJ:
+Extra steps for better Mixin making and Fabric configuring in IntelliJ IDEA:
 
 1. Go to `File > Settings...`
-2. Go to `Plugins > The gear in the top middle > Manage Plugin Repositories...`
-3. Press `+` and add one of these: (You can check your version in `Help > About`)
-    - If using 2019.2: https://raw.githubusercontent.com/Earthcomputer/MinecraftDev/dev_new/updates/updatePlugins-192.xml
-    - If using 2019.3: https://raw.githubusercontent.com/Earthcomputer/MinecraftDev/dev_new/updates/updatePlugins-193.xml
-    - If using 2020.1: https://raw.githubusercontent.com/Earthcomputer/MinecraftDev/dev_new/updates/updatePlugins-201.xml
-4. Refresh the plugin repo (restarting will do the trick).
-5. Go back to plugins and install the `Minecraft Development` plugin.
-6. Restart again.
-7. Profit!
+2. Go to `Plugins` and install the `Minecraft Development` plugin.
+3. Restart IntelliJ IDEA.
+4. Follow the instructions in [Using This to Make Mods](#using-this-to-make-mods).
+5. Profit!
 
 ## Using a Mod
 
 You will want to use the [Cursed Fabric MultiMC Instance](https://github.com/calmilamsy/Cursed-Fabric-MultiMC)
 
 ## Common Issues
+
+**maven.glass-launcher.net timed out or returned an error!**
+Contact calmilamsy in the ModStation discord about it.
+
+**I cant import anything from Minecraft/One of my dependencies arent able to be imported!**
+Go into `File > Project Structure...` and go into the `Project` tab and make sure you have got JDK 8 selected.  
+If you dont have JDK 8, then [download it here](https://www.oracle.com/uk/java/technologies/javase/javase-jdk8-downloads.html) (Requires an Oracle account).
 
 **Gradle says something about not being able to resolve Minecraft or another dependency!**  
 Just go into `C:\users\<username>\.gradle\caches` (`~/.gradle/caches` on other OSes), delete `fabric-loom` and refresh Gradle.
