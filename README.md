@@ -13,8 +13,7 @@ Extra steps for better Mixin making and Fabric configuring in IntelliJ IDEA:
 1. Go to `File > Settings...`
 2. Go to `Plugins` and install the `Minecraft Development` plugin.
 3. Restart IntelliJ IDEA.
-4. Follow the instructions in [Using This to Make Mods](#using-this-to-make-mods).
-5. Profit!
+4. Profit!
 
 ## Using a Mod
 
