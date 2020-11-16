@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftApplet.class)
 public class ExampleMixin {
-	@Inject(at = @At("RETURN"), method = "init")
+	@Inject(at = @At("RETURN"), method = "init", remap = false)
 	private void init(CallbackInfo ci) {
 		System.out.println("This line is printed by an example mod mixin!");
 	}
