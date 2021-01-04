@@ -1,4 +1,4 @@
-package net.glasslauncher.example.mixin;
+package reifnsk.minimap.mixin;
 
 import net.minecraft.client.MinecraftApplet;
 import net.minecraft.client.gui.screen.menu.MainMenu;

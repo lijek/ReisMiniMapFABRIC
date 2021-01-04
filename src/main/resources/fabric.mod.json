@@ -1,12 +1,13 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "reisminimap",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Rei's minimap",
+  "description": "Rei's minimap ported to Fabric!",
   "authors": [
-    "Me!"
+    "ReiNFSK",
+    "lijek"
   ],
   "contact": {
     "homepage": "https://glass-launcher.net/",
@@ -14,16 +15,15 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/reisminimap/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.glasslauncher.example.ExampleMod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "reisminimap.mixins.json"
   ],
 
   "depends": {
