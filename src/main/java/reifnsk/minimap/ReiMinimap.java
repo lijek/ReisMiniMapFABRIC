@@ -43,6 +43,8 @@ import net.minecraft.util.CharacterUtils;
 import net.minecraft.util.maths.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import reifnsk.minimap.mixin.ClientPlayNetworkHandlerMixin;
+import reifnsk.minimap.mixin.ServerPlayNetworkHandlerMixin;
 
 public class ReiMinimap implements Runnable {
     private static final String MC_B173 = "Beta 1.7.3";
@@ -197,8 +199,8 @@ public class ReiMinimap implements Runnable {
         this.roundmap = false;
         this.fullmap = false;
         this.renderType = 0;
-        this.wayPtsMap = new HashMap();
-        this.wayPts = new ArrayList();
+        this.wayPtsMap = new HashMap<>();
+        this.wayPts = new ArrayList<>();
         this.defaultZoom = 1;
         this.flagZoom = 1;
         this.targetZoom = 1.0D;
@@ -240,8 +242,8 @@ public class ReiMinimap implements Runnable {
             if (this.theMinecraft == null) {
                 this.theMinecraft = mc;
                 this.ingameGUI = this.theMinecraft.overlay;
-                this.ChatMessageList = (List)getField(this.ingameGUI, "chatMessageList");
-                this.ChatMessageList = (List)(this.ChatMessageList == null ? new ArrayList() : this.ChatMessageList);
+                this.ChatMessageList = (List<ChatMessage>)getField(this.ingameGUI, "chatMessageList");
+                this.ChatMessageList = (this.ChatMessageList == null ? new ArrayList() : this.ChatMessageList);
             }
 
             this.thePlayer = this.theMinecraft.player;
@@ -257,7 +259,9 @@ public class ReiMinimap implements Runnable {
                     String levelName;
                     if (this.multiplayer) {
                         levelName = null;
-                        SocketAddress addr = (SocketAddress)getFields(this.thePlayer, "sendQueue", "netManager", "remoteSocketAddress");
+                        //SocketAddress addr = (SocketAddress)getFields(this.thePlayer, "sendQueue", "netManager", "remoteSocketAddress"); original code that didn't work
+                        SocketAddress addr = ((ServerPlayNetworkHandlerMixin)((ClientPlayNetworkHandlerMixin)((ClientPlayer)this.thePlayer).networkHandler).getNetHandler()).getSocketAddress();
+                        //giant accessor castings :D, I know that it looks very bad
                         if (addr == null) {
                             this.errorString = "[Rei's Minimap] ERROR: SMP ADDRESS ACQUISITION FAILURE";
                             throw new MinimapException(this.errorString);
@@ -333,9 +337,9 @@ public class ReiMinimap implements Runnable {
                         this.loadWaypoints();
                     }
 
-                    this.wayPts = (ArrayList)this.wayPtsMap.get(this.waypointDimension);
+                    this.wayPts = (ArrayList<Waypoint>)this.wayPtsMap.get(this.waypointDimension);
                     if (this.wayPts == null) {
-                        this.wayPts = new ArrayList();
+                        this.wayPts = new ArrayList<>();
                         this.wayPtsMap.put(this.waypointDimension, this.wayPts);
                     }
                 }
@@ -344,10 +348,10 @@ public class ReiMinimap implements Runnable {
             }
 
             if (!this.chatWelcomed && System.currentTimeMillis() < this.chatTime + 10000L) {
-                Iterator i$ = this.ChatMessageList.iterator();
+                Iterator<ChatMessage> i$ = this.ChatMessageList.iterator();
 
                 while(i$.hasNext()) {
-                    ChatMessage cl = (ChatMessage)i$.next();
+                    ChatMessage cl = i$.next();
                     if (cl == null || this.ChatMessageLast == cl) {
                         break;
                     }
@@ -513,11 +517,11 @@ public class ReiMinimap implements Runnable {
                 scalef = rng.nextFloat();
                 float b = rng.nextFloat();
                 boolean contains = false;
-                Iterator i$ = this.wayPts.iterator();
+                Iterator<Waypoint> i$ = this.wayPts.iterator();
 
                 while(true) {
                     if (i$.hasNext()) {
-                        Waypoint wp = (Waypoint)i$.next();
+                        Waypoint wp = i$.next();
                         if (wp.type != 1 || wp.x != x || wp.y != x || wp.z != y || !wp.enable) {
                             continue;
                         }
@@ -1136,10 +1140,10 @@ public class ReiMinimap implements Runnable {
         if (this.visibleEntitiesRadar) {
             List<EntityBase> entityList = this.theWorld.entities;
             synchronized(entityList) {
-                Iterator i$ = entityList.iterator();
+                Iterator<EntityBase> i$ = entityList.iterator();
 
                 while(i$.hasNext()) {
-                    EntityBase entity = (EntityBase)i$.next();
+                    EntityBase entity = i$.next();
                     int color = this.getEntityColor(entity);
                     if (color != 0) {
                         double wayX = this.thePlayer.x - entity.x;
@@ -1190,10 +1194,10 @@ public class ReiMinimap implements Runnable {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         double wayX;
         if (this.visibleWaypoints) {
-            Iterator i$ = this.wayPts.iterator();
+            Iterator<Waypoint> i$ = this.wayPts.iterator();
 
             while(i$.hasNext()) {
-                Waypoint pt = (Waypoint)i$.next();
+                Waypoint pt = i$.next();
                 if (pt.enable) {
                     wayX = this.thePlayer.x - (double)pt.x - 0.5D;
                     double wayZ = this.thePlayer.z - (double)pt.z - 0.5D;
@@ -1273,10 +1277,10 @@ public class ReiMinimap implements Runnable {
         if (this.visibleEntitiesRadar) {
             List<EntityBase> entityList = this.theWorld.entities;
             synchronized(entityList) {
-                Iterator i$ = entityList.iterator();
+                Iterator<EntityBase> i$ = entityList.iterator();
 
                 while(i$.hasNext()) {
-                    EntityBase entity = (EntityBase)i$.next();
+                    EntityBase entity = i$.next();
                     int color = this.getEntityColor(entity);
                     if (color != 0) {
                         double wayX = this.thePlayer.x - entity.x;
@@ -1320,10 +1324,10 @@ public class ReiMinimap implements Runnable {
         this.drawCenteringRectangle((double)x, (double)y, 1.0D, 64.0D, 64.0D);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         if (this.visibleWaypoints) {
-            Iterator i$ = this.wayPts.iterator();
+            Iterator<Waypoint> i$ = this.wayPts.iterator();
 
             while(i$.hasNext()) {
-                Waypoint pt = (Waypoint)i$.next();
+                Waypoint pt = i$.next();
                 if (pt.enable) {
                     double wayX = this.thePlayer.x - (double)pt.x - 0.5D;
                     wayZ = this.thePlayer.z - (double)pt.z - 0.5D;
@@ -1408,10 +1412,10 @@ public class ReiMinimap implements Runnable {
         if (this.visibleEntitiesRadar) {
             List<EntityBase> entityList = this.theWorld.entities;
             synchronized(entityList) {
-                Iterator i$ = entityList.iterator();
+                Iterator<EntityBase> i$ = entityList.iterator();
 
                 while(i$.hasNext()) {
-                    EntityBase entity = (EntityBase)i$.next();
+                    EntityBase entity = i$.next();
                     int color = this.getEntityColor(entity);
                     if (color != 0) {
                         double wayX = this.thePlayer.x - entity.x;
@@ -1468,10 +1472,10 @@ public class ReiMinimap implements Runnable {
         }
 
         if (this.visibleWaypoints) {
-            Iterator i$ = this.wayPts.iterator();
+            Iterator<Waypoint> i$ = this.wayPts.iterator();
 
             while(i$.hasNext()) {
-                Waypoint pt = (Waypoint)i$.next();
+                Waypoint pt = i$.next();
                 if (pt.enable) {
                     double wayX = this.thePlayer.x - (double)pt.x - 0.5D;
                     double wayZ = this.thePlayer.z - (double)pt.z - 0.5D;
@@ -1798,10 +1802,10 @@ public class ReiMinimap implements Runnable {
         } else {
             try {
                 PrintWriter out = new PrintWriter(waypointFile);
-                Iterator i$ = this.wayPts.iterator();
+                Iterator<Waypoint> i$ = this.wayPts.iterator();
 
                 while(i$.hasNext()) {
-                    Waypoint pt = (Waypoint)i$.next();
+                    Waypoint pt = i$.next();
                     out.println(pt);
                 }
 
@@ -1829,7 +1833,7 @@ public class ReiMinimap implements Runnable {
             if (m.matches()) {
                 ++dim;
                 int dimension = Integer.parseInt(m.group(1));
-                ArrayList<Waypoint> list = new ArrayList();
+                ArrayList<Waypoint> list = new ArrayList<>();
                 Scanner in = null;
 
                 try {
@@ -1858,7 +1862,7 @@ public class ReiMinimap implements Runnable {
         }
 
         if (this.wayPts == null) {
-            this.wayPts = new ArrayList();
+            this.wayPts = new ArrayList<>();
         }
 
         if (load != 0) {
@@ -1957,7 +1961,7 @@ public class ReiMinimap implements Runnable {
     }
 
     private static Map<String, String> createObfuscatorFieldMap() {
-        HashMap<String, String> map = new HashMap();
+        HashMap<String, String> map = new HashMap<>();
         if ("Beta 1.7.3".equals("Beta 1.7.3")) {
             map.put("chatMessageList", "e");
             map.put("worldInfo", "x");
